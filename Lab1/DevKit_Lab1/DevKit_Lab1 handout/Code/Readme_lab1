@@ -1,0 +1,4 @@
+Readme lab1
+
+To run the files, please use the lab1_start_here.m, it has built-in the functions to generate data from each value of proportional gain, it is able to create estimation of transfer functions and generate plots.
+ 
