@@ -1,4 +1,5 @@
-function [raw,euler, phys_accs,phys_gyros,altitude_vision,altitude_vz,navdata] = trata_dados(filename)
+function [altitude_real,raw,euler, phys_accs,phys_gyros,altitude_vision,...
+    altitude_vz,navdata] = trata_dados(filename)
 
 load(filename);
 time = navdata.time;
@@ -11,8 +12,8 @@ altitude_vz = zeros(N,1);
 for i = 1:N
     [ardrone_state, vbat_flying_percentage,...
     theta(i), phi(i), psi(i), altitude(i), vx, vy, vz , cksumError, body_v,...
-    phys_accs(i,:),phys_gyros(i,:),altitude_vision(i),altitude_vz(i),altitude_raw,heading_unwrapped,heading_gyro_unwrapped,...
-    heading_fusion_unwrapped,magneto_radius,est_z,est_zdot,theta_a,phi_a,mx, my, mz]= trata_dados_large(navdata.signals.values(i,:));
+    phys_accs(i,:),phys_gyros(i,:),altitude_vision(i),altitude_vz(i),altitude_raw(i),heading_unwrapped,heading_gyro_unwrapped,...
+    heading_fusion_unwrapped,magneto_radius,est_z(i),est_zdot(i),theta_a,phi_a,mx, my, mz]= trata_dados_large(navdata.signals.values(i,:));
 end
     euler.theta=theta;
     euler.phi=phi;
@@ -21,7 +22,8 @@ end
     
     raw.theta=-atan2(phys_accs(:,1) ,sqrt(phys_accs(:,2).^2 + phys_accs(:,3).^2));
     raw.phi=atan2(phys_accs(:,2),phys_accs(:,3));
-    
+    altitude_real.est_z=est_z;
+    altitude_real.est_zdot=est_zdot;
 end
 
 %%    
